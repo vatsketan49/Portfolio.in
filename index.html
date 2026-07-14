@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ketan Vats — UI/UX Designer</title>
+<meta name="description" content="Ketan Vats is a UI/UX Designer specializing in Figma, wireframing, prototyping and user research, based in Ghaziabad, Uttar Pradesh, India.">
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
+<style>
+:root{
+  --ink:#0e0f12;
+  --surface:#17181d;
+  --surface-2:#1e2027;
+  --paper:#f3f0e8;
+  --paper-dim:#b9b6ac;
+  --accent:#8b7cff;
+  --accent-dim:#5d4fd6;
+  --line: rgba(243,240,232,0.12);
+  --radius: 10px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Inter',sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+.wrap{max-width:1180px;margin:0 auto;padding:0 6vw;}
+::selection{background:var(--accent);color:var(--ink);}
+
+/* subtle canvas grid backdrop */
+.grid-bg{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:64px 64px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 10%, transparent 75%);
+  opacity:.5;
+}
+
+/* eyebrow / mono label */
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.78rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--accent);
+  display:flex;align-items:center;gap:.6rem;
+  margin-bottom:1rem;
+}
+.eyebrow::before{content:'';width:22px;height:1px;background:var(--accent);display:inline-block;}
+
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-.01em;}
+
+/* header */
+header{
+  position:fixed;top:0;left:0;width:100%;z-index:200;
+  padding:1.4rem 0;
+  transition:.3s;
+}
+header.scrolled{
+  background:rgba(14,15,18,.85);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  padding:1rem 0;
+}
+header .wrap{display:flex;align-items:center;justify-content:space-between;}
+.logo{
+  font-family:'Fraunces',serif;font-size:1.3rem;font-weight:600;
+  display:flex;align-items:center;gap:.5rem;
+}
+.logo .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+nav.navbar{display:flex;gap:2.4rem;}
+nav.navbar a{
+  font-size:.92rem;color:var(--paper-dim);position:relative;padding:.2rem 0;
+  transition:.2s;
+}
+nav.navbar a:hover, nav.navbar a.active{color:var(--paper);}
+nav.navbar a.active::after{
+  content:'';position:absolute;bottom:-6px;left:0;width:100%;height:1px;background:var(--accent);
+}
+#menu-icon{display:none;font-size:1.8rem;cursor:pointer;z-index:210;}
+
+@media (max-width:860px){
+  nav.navbar{
+    position:fixed;top:0;right:-100%;height:100vh;width:min(78vw,320px);
+    background:var(--surface);flex-direction:column;justify-content:center;
+    gap:2rem;padding:2rem;transition:.35s ease;border-left:1px solid var(--line);
+  }
+  nav.navbar.active{right:0;}
+  nav.navbar a{font-size:1.15rem;}
+  #menu-icon{display:block;}
+}
+
+/* section rhythm */
+section{padding:8.5rem 0 5rem;position:relative;z-index:1;}
+.section-head{max-width:640px;margin-bottom:3.5rem;}
+.section-head h2{font-size:clamp(2rem,4vw,2.8rem);}
+.section-head p{color:var(--paper-dim);margin-top:.8rem;font-size:1.02rem;}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease, transform .7s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* HERO */
+.home{min-height:100vh;display:flex;align-items:center;padding-top:6rem;}
+.home .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:3rem;align-items:center;}
+.home-content h1{font-size:clamp(2.6rem,6vw,4.2rem);line-height:1.1;}
+.home-content h1 em{font-style:italic;color:var(--accent);}
+.role-line{
+  font-family:'IBM Plex Mono',monospace;font-size:1.05rem;color:var(--paper-dim);
+  margin:1.1rem 0 1.5rem;display:flex;align-items:center;gap:.6rem;
+}
+.role-line .cursor{width:8px;height:1.2em;background:var(--accent);animation:blink 1s step-end infinite;}
+@keyframes blink{50%{opacity:0;}}
+.home-content > p.lede{max-width:46ch;color:var(--paper-dim);font-size:1.05rem;}
+.btn-row{display:flex;gap:1rem;margin-top:2.3rem;flex-wrap:wrap;}
+.btn{
+  display:inline-flex;align-items:center;gap:.5rem;
+  padding:.9rem 3.6rem;border-radius:999px;font-size:.92rem;font-weight:600;
+  border:1px solid var(--accent);transition:.25s;
+}
+.btn.solid{background:var(--accent);color:var(--ink);}
+.btn.solid:hover{background:var(--accent-dim);border-color:var(--accent-dim);}
+.btn.ghost{color:var(--paper);}
+.btn.ghost:hover{background:var(--surface-2);}
+.sci-row{display:flex;gap:1rem;margin-top:2.4rem;}
+.sci-row a{
+  width:60px;height:60px;border:1px solid var(--line);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--paper-dim);
+  transition:.25s;
+}
+.sci-row a:hover{border-color:var(--accent);color:var(--accent);}
+
+/* portrait with sticky annotation tags */
+.portrait{position:relative;justify-self:center;}
+.portrait .frame{
+  width:450px;height:450px;border-radius:100%;overflow:hidden;
+  border:1px solid var(--line);position:relative;
+}
+.portrait .frame img{width:100%;height:100%;object-fit:cover;filter:grayscale(15%) contrast(1.05);}
+.tag{
+  position:absolute;background:var(--paper);color:var(--ink);
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  padding:.5rem .7rem;border-radius:4px;box-shadow:0 8px 20px rgba(0,0,0,.35);
+  line-height:1.3;
+}
+.tag.t1{top:-14px;left:-38px;transform:rotate(-6deg);}
+.tag.t2{bottom:18px;right:-46px;transform:rotate(5deg);}
+.tag b{display:block;font-family:'Inter',sans-serif;font-weight:700;font-size:.78rem;}
+
+/* ABOUT */
+.about .wrap{display:grid;grid-template-columns:.9fr 1.4fr;gap:4rem;align-items:start;}
+.about-stats{display:flex;flex-direction:column;gap:1.6rem;padding-top:.5rem;}
+.stat b{font-family:'Fraunces',serif;font-size:2.2rem;color:var(--accent);display:block;}
+.stat span{font-size:.85rem;color:var(--paper-dim);}
+.about-content p{color:var(--paper-dim);margin-bottom:1.2rem;max-width:60ch;}
+.about-content p strong{color:var(--paper);}
+
+/* TIMELINE (education + experience) */
+.timeline-cols{display:grid;grid-template-columns:1fr 1fr;gap:4rem;}
+@media (max-width:860px){.timeline-cols{grid-template-columns:1fr;gap:3rem;}}
+.tl-title{font-size:1.1rem;font-family:'IBM Plex Mono',monospace;color:var(--paper-dim);margin-bottom:1.6rem;letter-spacing:.04em;text-transform:uppercase;}
+.tl{border-left:1px solid var(--line);padding-left:1.6rem;}
+.tl-item{position:relative;padding-bottom:2rem;}
+.tl-item::before{
+  content:'';position:absolute;left:-1.98rem;top:.35rem;width:9px;height:9px;border-radius:50%;
+  background:var(--ink);border:2px solid var(--accent);
+}
+.tl-item .year{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--accent);margin-bottom:.3rem;}
+.tl-item h3{font-family:'Inter',sans-serif;font-size:1.05rem;font-weight:600;}
+.tl-item p{color:var(--paper-dim);font-size:.92rem;margin-top:.2rem;}
+
+/* SKILLS */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;}
+@media (max-width:860px){.skills-grid{grid-template-columns:1fr;}}
+.skill-card{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:1.8rem;
+}
+.skill-card .eyebrow{margin-bottom:1.2rem;}
+.chip-row{display:flex;flex-wrap:wrap;gap:.5rem;}
+.chip{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.83rem;padding:.45rem .9rem .45rem .6rem;border-radius:999px;
+  border:1px solid var(--line);color:var(--paper-dim);
+  transition:.2s;
+}
+.chip:hover{border-color:var(--accent);color:var(--paper);transform:translateY(-2px);}
+.chip .iconify, .chip svg{width:16px;height:16px;flex-shrink:0;}
+.chip.mono .iconify, .chip.mono svg{color:var(--accent);}
+
+.portfolio-grid .p-card:nth-child(1){transition-delay:.05s;}
+.portfolio-grid .p-card:nth-child(2){transition-delay:.1s;}
+.portfolio-grid .p-card:nth-child(3){transition-delay:.15s;}
+.portfolio-grid .p-card:nth-child(4){transition-delay:.2s;}
+.portfolio-grid .p-card:nth-child(5){transition-delay:.25s;}
+.portfolio-grid .p-card:nth-child(6){transition-delay:.3s;}
+.portfolio-grid .p-card:nth-child(7){transition-delay:.35s;}
+.p-card{transition:transform .35s ease, box-shadow .35s ease, opacity .7s ease, transform .7s ease;}
+.p-card:hover{transform:translateY(-6px);box-shadow:0 18px 32px rgba(0,0,0,.35);}
+
+/* PORTFOLIO */
+.filter-row{display:flex;gap:.6rem;margin-bottom:2.2rem;flex-wrap:wrap;}
+.filter-row button{
+  font-family:'IBM Plex Mono',monospace;font-size:.78rem;padding:.5rem 1rem;border-radius:999px;
+  border:1px solid var(--line);background:transparent;color:var(--paper-dim);cursor:pointer;transition:.2s;
+}
+.filter-row button.active, .filter-row button:hover{border-color:var(--accent);color:var(--accent);}
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6rem;}
+@media (max-width:960px){.portfolio-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:620px){.portfolio-grid{grid-template-columns:1fr;}}
+.p-card{
+  position:relative;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line);
+  background:var(--surface);
+}
+.p-card .thumb{height:200px;overflow:hidden;}
+.p-card .thumb img{width:100%;height:100%;object-fit:cover;transition:.4s ease;}
+.p-card:hover .thumb img{transform:scale(1.06);}
+.p-card .thumb.placeholder{
+  display:flex;align-items:center;justify-content:center;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(139,124,255,.25), transparent 55%),
+    repeating-linear-gradient(135deg, var(--surface-2) 0 2px, var(--surface) 2px 14px);
+  transition:.4s ease;
+}
+.p-card:hover .thumb.placeholder{background-position:8px 8px;}
+.p-card .thumb.placeholder i{font-size:2.6rem;color:var(--accent);opacity:.85;transition:.35s;}
+.p-card:hover .thumb.placeholder i{transform:scale(1.12) rotate(-4deg);}
+.p-card .body{padding:1.3rem 1.4rem 1.5rem;}
+.p-card .kicker{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;}
+.p-card h4{font-family:'Inter',sans-serif;font-size:1.05rem;font-weight:700;margin:.4rem 0 .5rem;}
+.p-card p{font-size:.88rem;color:var(--paper-dim);margin-bottom:1rem;}
+.p-card a.view{
+  font-size:.83rem;font-weight:600;color:var(--paper);display:inline-flex;align-items:center;gap:.4rem;
+}
+.p-card a.view i{transition:.2s;}
+.p-card a.view:hover i{transform:translateX(3px);}
+.p-card .sticky-note{
+  position:absolute;top:14px;right:14px;background:var(--paper);color:var(--ink);
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;padding:.3rem .6rem;border-radius:4px;
+  transform:rotate(4deg);box-shadow:0 6px 16px rgba(0,0,0,.35);
+}
+
+/* CONTACT */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;}
+@media (max-width:860px){.contact-wrap{grid-template-columns:1fr;}}
+.contact-info p{color:var(--paper-dim);max-width:42ch;margin-bottom:2rem;}
+.contact-list{display:flex;flex-direction:column;gap:1.2rem;}
+.contact-list a{display:flex;align-items:center;gap:.8rem;font-size:.95rem;color:var(--paper);}
+.contact-list i{color:var(--accent);font-size:1.2rem;}
+form{display:flex;flex-direction:column;gap:1rem;}
+.field{position:relative;}
+.field input,.field textarea{
+  width:100%;background:var(--surface);border:1px solid var(--line);border-radius:8px;
+  padding:1rem 1.1rem;color:var(--paper);font-family:'Inter',sans-serif;font-size:.95rem;
+  transition:.2s;
+}
+.field textarea{resize:vertical;min-height:120px;}
+.field input:focus,.field textarea:focus{border-color:var(--accent);}
+.field input::placeholder,.field textarea::placeholder{color:var(--paper-dim);}
+.form-note{font-size:.8rem;color:var(--paper-dim);}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--line);padding:2.2rem 0;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+  font-size:.85rem;color:var(--paper-dim);position:relative;z-index:1;
+}
+footer a.top{
+  width:38px;height:38px;border:1px solid var(--line);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;transition:.2s;
+}
+footer a.top:hover{border-color:var(--accent);color:var(--accent);}
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<header id="siteHeader">
+  <div class="wrap">
+    <a href="#home" class="logo"><span class="dot"></span>Ketan Vats</a>
+    <nav class="navbar" id="navbar">
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#journey">Journey</a>
+      <a href="#skills">Skills</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class='bx bx-menu' id="menu-icon"></div>
+  </div>
+</header>
+
+<!-- HOME -->
+<section class="home" id="home">
+  <div class="wrap">
+    <div class="home-content reveal">
+      <div class="eyebrow">OPEN TO FULL-TIME UI/UX ROLES</div>
+      <h1>Transforming<br><em> User Insights</em> intoMeaningful Experiences</h1>
+      <div class="role-line">UI/UX Designer<span class="cursor"></span></div>
+      <p class="lede">I design user experiences that simplify complex workflows, improve usability, and help businesses achieve their goals.</p>
+      <div class="btn-row">
+        <a href="mailto:vatsketan15@gmail.com" class="btn solid">Hire Me <i class='bx bx-right-arrow-alt'></i></a>
+        <a href="#work" class="btn ghost">View Work</a>
+      </div> 
+      <div class="sci-row">
+        <a href="https://www.linkedin.com/in/ketan-vats-8395a52a6?utm_source=share_via&utm_content=profile&utm_medium=member_ios" aria-label="LinkedIn"><span class="iconify" data-icon="logos:linkedin-icon" data-width="30"></span></a>
+        <a href="https://whatsapp.com/dl/" aria-label="WhatsApp"><span class="iconify" data-icon="logos:whatsapp-icon" data-width="30"></span></a>
+        <a href="mailto:vatsketan15@gmail.com" aria-label="Email"><span class="iconify" data-icon="logos:google-gmail" data-width="30"></span></a>
+      </div>
+    </div>
+    <div class="portrait reveal">
+      <div class="frame"><img src="images/hero-image.jpeg" alt="Portrait of Ketan Vats"></div>
+      <div class="tag t1"><b>UX Research</b>Usability &amp; user flows</div>
+      <div class="tag t2"><b>UI Toolkit</b>Figma · Adobe XD</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="about-stats reveal">
+      <div class="stat"><b>1+</b><span>Year of professional UI/UX experience</span></div>
+      <div class="stat"><b>2</b><span>Design internships completed</span></div>
+      <div class="stat"><b>8+</b><span>End‑to‑end case studies shipped</span></div>
+       <div class="stat"><b>20+</b><span>Projects Designed</span></div>
+    </div>
+    <div class="about-content reveal">
+      <div class="section-head" style="margin-bottom:1.5rem;">
+        <div class="eyebrow">About</div>
+        <h2>Detail‑oriented, research‑first.</h2>
+      </div>
+      <p><strong>I'm a UI/UX Designer</strong> with hands-on experience in wireframing, prototyping, user research, usability testing and responsive design. My process starts with the problem, not the pixels — understanding who a product is for before deciding what it looks like.</p>
+      <p>Currently designing at <strong>NexElevate</strong> in Noida, after internships at <strong>Lejhro</strong>, <strong>Dfree Novelish OPC Pvt. Ltd.</strong> and <strong>Prolific Systems &amp; Technologies</strong>. I hold a BCA from Chaudhary Charan Singh University.</p>
+      <div class="btn-row">
+        <a href="#work" class="btn ghost">See full case studies</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section id="journey">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Journey</div>
+      <h2>Education &amp; Experience</h2>
+      <p></p>
+    </div>
+    <div class="timeline-cols">
+      <div class="reveal">
+        <div class="tl-title">Education</div>
+        <div class="tl">
+          <div class="tl-item">
+            <div class="year">2022 — 2025</div>
+            <h3>Bachelor of Computer Application</h3>
+            <p>Chaudhary Charan Singh University</p>
+          </div>
+          <div class="tl-item">
+            <div class="year">2021 — 2022</div>
+            <h3>Higher Secondary School</h3>
+            <p>Ingraham Institute English School</p>
+          </div>
+          <div class="tl-item">
+            <div class="year">2019 — 2020</div>
+            <h3>Secondary School</h3>
+            <p>Ingraham Institute English School</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="tl-title">Experience</div>
+        <div class="tl">
+          <div class="tl-item">
+            <div class="year">November 2025 – Present</div>
+            <h3>UI/UX Designer</h3>
+            <p>NexElevate, Noida</p>
+          </div>
+          <div class="tl-item">
+            <div class="year">September 2025 – November 2025</div>
+            <h3>UI/UX Designer Intern</h3>
+            <p>Lejhro</p>
+          </div>
+          <div class="tl-item">
+            <div class="year">June 2025 – August 2025</div>
+            <h3>UI/UX Designer Intern</h3>
+            <p>Dfree Novelish OPC Pvt. Ltd.</p>
+          </div>
+          <div class="tl-item">
+            <div class="year">August 2024 – December 2024</div>
+            <h3>Web Development</h3>
+            <p>Prolific Systems &amp; Technologies Pvt. Ltd.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<p class="form-note" style="margin-top:1rem;">Dates are placeholders — swap in your exact start/end months.</p>-->
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Skills</div>
+      <h2>What I bring to a project</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card reveal">
+        <div class="eyebrow">Design Tools</div>
+        <div class="chip-row">
+          <span class="chip"><span class="iconify" data-icon="logos:figma" data-width="16"></span>Figma</span>
+          <span class="chip"><span class="iconify" data-icon="logos:adobe-xd" data-width="16"></span>Adobe XD</span>
+          <span class="chip"><span class="iconify" data-icon="logos:framer" data-width="16"></span>Framer</span>
+          <span class="chip"><span class="iconify" data-icon="logos:adobe-photoshop" data-width="16"></span>Photoshop</span>
+          <span class="chip"><span class="iconify" data-icon="logos:adobe-illustrator" data-width="16"></span>Illustrator</span>
+          <span class="chip"><span class="iconify" data-icon="logos:canva" data-width="16"></span>Canva</span>
+          <span class="chip"><span class="iconify" data-icon="logos:CharGTP" data-width="16"></span>CharGTP</span>
+          <span class="chip"><i class='bx bx-cube-alt' style="color:var(--accent);font-size:1rem;"></i>Spline3D</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="eyebrow">Process</div>
+        <div class="chip-row">
+          <span class="chip"><i class='bx bx-search-alt' style="color:var(--accent);font-size:1rem;"></i>User Research</span>
+          <span class="chip"><i class='bx bx-layer' style="color:var(--accent);font-size:1rem;"></i>Wireframing</span>
+          <span class="chip"><i class='bx bx-play-circle' style="color:var(--accent);font-size:1rem;"></i>Prototyping</span>
+          <span class="chip"><i class='bx bx-check-shield' style="color:var(--accent);font-size:1rem;"></i>Usability Testing</span>
+        </div>
+      </div>
+      <div class="skill-card reveal">
+        <div class="eyebrow">Deliverables</div>
+        <div class="chip-row">
+          <span class="chip"><i class='bx bx-grid-alt' style="color:var(--accent);font-size:1rem;"></i>Design Systems</span>
+          <span class="chip"><i class='bx bx-transfer-alt' style="color:var(--accent);font-size:1rem;"></i>Interaction Design</span>
+          <span class="chip"><i class='bx bx-mobile-alt' style="color:var(--accent);font-size:1rem;"></i>Responsive UI</span>
+          <span class="chip"><i class='bx bx-book-content' style="color:var(--accent);font-size:1rem;"></i>Case Studies</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="work">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Selected Work</div>
+      <h2>Latest Projects</h2>
+      <p>Figma case studies — wireframes, interactive prototypes and style guides for each.</p>
+    </div>
+    <div class="portfolio-grid">
+
+      <div class="p-card reveal">
+        <span class="sticky-note">shipped</span>
+        <div class="thumb"><img src="images/1.png" alt="Printer website design"></div>
+        <div class="body">
+          <div class="kicker">Web · Service</div>
+          <h4>Printer Website</h4>
+          <p>Wireframes, interactive prototype and style guide focused on minimal, easy navigation.</p>
+          <a class="view" href="https://www.figma.com/design/225ovAfQFawgiMAYFcwxLp/Printer?node-id=0-1&t=FKkhTQ41wVTzXiuW-1" target="_blank" rel="noopener">View case study <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>
+
+      <div class="p-card reveal">
+        <div class="thumb"><img src="images/2.png" alt="Digital marketing website design"></div>
+        <div class="body">
+          <div class="kicker">Web · Marketing</div>
+          <h4>Digital Marketing Website</h4>
+          <p>End-to-end wireframes and prototype for a marketing-agency landing experience.</p>
+          <a class="view" href="#" target="_blank" rel="noopener">View case study <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>
+
+      <div class="p-card reveal">
+        <span class="sticky-note">shipped</span>
+        <div class="thumb"><img src="images/3.jpeg" alt="Printer website design"></div>
+        <div class="body">
+          <div class="kicker">Web · Recuitment</div>
+          <h4>Recruitment and IT Website</h4>
+          <p>Modern recruitment and IT website design with reusable components, intuitive navigation, and responsive layouts.</p>
+          <a class="view" href="https://www.figma.com/design/NVGWJH9eF7Hw4jlStQktUK/projects?node-id=0-1&t=V39KdJD8Hp1fB8hx-0" target="_blank" rel="noopener">View case study <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>
+
+
+      <div class="p-card reveal">
+        <div class="thumb"><img src="images/4.jpeg" alt="Digital marketing website design"></div>
+        <div class="body">
+          <div class="kicker">Web · Marketing</div>
+          <h4>Digital Marketing Website</h4>
+          <p>End-to-end wireframes and prototype for a marketing-agency landing experience.</p>
+          <a class="view" href="https://www.figma.com/design/6iq9migMQFO6dmpBSwL9zM/DIGITAL-MARKETING-WEBSITES?node-id=0-1&t=pi3OqQGRZX2yVaF3-0" target="_blank" rel="noopener">View case study <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>
+
+  <div class="p-card reveal">
+        <span class="sticky-note">shipped</span>
+        <div class="thumb"><img src="images/5.jpeg" alt="Printer website design"></div>
+        <div class="body">
+          <div class="kicker">Web · Service</div>
+          <h4>Printer Website</h4>
+          <p>Wireframes, interactive prototype and style guide focused on minimal, easy navigation.</p>
+          <a class="view" href="https://www.figma.com/design/oFILQNsmWsApLypUgVQYvM/Printer-Websites?node-id=1-2" target="_blank" rel="noopener">View case study <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>
+
+ <div class="p-card reveal">
+        <div class="thumb"><img src="images/6.png" alt="CRM interface design"></div>
+        <div class="body">
+          <div class="kicker">Web · Application</div>
+          <h4>CRM Application Design</h4>
+          <p>A responsive CRM interface focused on customer management, sales pipelines, reporting, and productivity—designed entirely in Figma..</p>
+          <a class="view" href="https://www.figma.com/make/izuRVTUGfzJGrlwbnPolDX/CRM-Software-Application?fullscreen=1&t=u40p45MjzjCEYMlP-1&code-node-id=0-9" target="_blank" rel="noopener">View case study <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>
+
+
+      <div class="p-card reveal">
+        <div class="thumb"><img src="images/7.png" alt="Online book store design"></div>
+        <div class="body">
+          <div class="kicker">Web · E‑commerce</div>
+          <h4>Online Book Store</h4>
+          <p>Full storefront flow — browse, search and checkout — with a reusable style guide.</p>
+          <a class="view" href="https://www.figma.com/proto/3xuLYuaZ4vqO6ngIGRPxrj/Online-book-store?page-id=118%3A3458&node-id=137-10&starting-point-node-id=137%3A10&t=oGVmu7dz5NOJUxxa-1" target="_blank" rel="noopener">View case study <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>
+
+      <div class="p-card reveal">
+        <span class="sticky-note">mobile</span>
+        <div class="thumb"><img src="images/8.png" alt="Food delivery app design"></div>
+        <div class="body">
+          <div class="kicker">App · Food Delivery</div>
+          <h4>Food App Design</h4>
+          <p>End-to-end mobile UI screens with interactive prototype for ordering and tracking.</p>
+          <a class="view" href="https://www.figma.com/proto/x0HR2QwS1FEIAuO7pvpY7m/Food-delivery-app?page-id=30%3A146&node-id=44-1894&starting-point-node-id=44%3A1893&t=Qr1sBSzmYRgMFb6q-1" target="_blank" rel="noopener">View case study <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>
+
+      <div class="p-card reveal">
+        <span class="sticky-note">mobile</span>
+        <div class="thumb"><img src="images/9.png" alt="Movie ticket booking app design"></div>
+        <div class="body">
+          <div class="kicker">App · Entertainment</div>
+          <h4>Movie Ticket App</h4>
+          <p>Booking flow from browse to seat selection to payment, prototyped in Figma.</p>
+          <a class="view" href="https://www.figma.com/proto/wn2qv0rWh8uWWZhaZD3dz9/movie-ticket-app?page-id=23%3A31&node-id=38-23&p=f&viewport=247%2C516%2C0.27&t=veDt6ZBMmqMCMdYO-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=38%3A23" target="_blank" rel="noopener">View case study <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+      </div>
+     
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div class="eyebrow">Contact</div>
+      <h2>Let's work together</h2>
+    </div>
+    <div class="contact-wrap">
+      <div class="contact-info reveal">
+        <p>Open to full-time and freelance UI/UX opportunities. The fastest way to reach me is LinkedIn or email.</p>
+        <div class="contact-list">
+          <a href="mailto:vatsketan15@gmail.com"><span class="iconify" data-icon="logos:google-gmail" data-width="20"></span> vatsketan15@gmail.com</a>
+          <a href="https://www.linkedin.com/in/ketan-vats-8395a52a6?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener"><span class="iconify" data-icon="logos:linkedin-icon" data-width="20"></span> linkedin.com/in/ketan-vats</a>
+          <a href="#"><i class='bx bx-map'></i> Ghaziabad, Uttar Pradesh, India</a>
+        </div>
+      </div>
+      <form class="reveal" id="contactForm">
+        <div class="field"><input type="text" placeholder="Full name" required></div>
+        <div class="field"><input type="email" placeholder="Email address" required></div>
+        <div class="field"><input type="text" placeholder="Subject" required></div>
+        <div class="field"><textarea placeholder="Your message" required></textarea></div>
+        <button type="submit" class="btn solid" style="align-self:flex-start;">Send message <i class='bx bx-send'></i></button>
+        <p class="form-note"></p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Ketan Vats. All rights reserved.</p>
+  <a href="#home" class="top" aria-label="Back to top"><i class='bx bx-up-arrow-alt'></i></a>
+</footer>
+
+<script>
+// mobile nav
+const menuIcon = document.getElementById('menu-icon');
+const navbar = document.getElementById('navbar');
+menuIcon.addEventListener('click', () => {
+  navbar.classList.toggle('active');
+  menuIcon.classList.toggle('bx-x');
+});
+document.querySelectorAll('.navbar a').forEach(a => {
+  a.addEventListener('click', () => {
+    navbar.classList.remove('active');
+    menuIcon.classList.remove('bx-x');
+  });
+});
+
+// sticky header
+const header = document.getElementById('siteHeader');
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// scrollspy
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.navbar a');
+const spy = () => {
+  let current = sections[0].id;
+  sections.forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - 160) current = sec.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+  });
+};
+window.addEventListener('scroll', spy);
+spy();
+
+// reveal on scroll
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// contact form -> mailto fallback
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  const [name, email, subject, message] = [...this.querySelectorAll('input,textarea')].map(f => f.value);
+  const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
+  window.location.href = `mailto:vatsketan15@gmail.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+});
+
+// filter placeholder removed (no category system yet)
+</script>
+</body>
+</html>
